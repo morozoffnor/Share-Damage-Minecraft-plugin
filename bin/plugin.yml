@@ -1,0 +1,10 @@
+main: ml.govnoed.ShareDamage.Main
+name: ShareDamage
+version: 1.0
+author: morozoffnor
+
+commands:
+  sharedamage:
+    start: 
+    stop: 
+    stats: 

@@ -56,7 +56,7 @@ public class Main extends JavaPlugin implements Listener {
 				
 				Set<Map.Entry<String, Integer>> results = damageTaken.entrySet();
 				
-				Bukkit.getServer().broadcastMessage(ChatColor.GOLD + "Statistics for this round were:");
+				Bukkit.getServer().broadcastMessage(ChatColor.GOLD + "Statistics for this run were:");
 				for (Map.Entry<String, Integer> player : results) {
 					Bukkit.getServer().broadcastMessage(ChatColor.GREEN + player.getKey() + ChatColor.WHITE + " took " + ChatColor.RED + player.getValue() + ChatColor.WHITE + " damage");
 				}

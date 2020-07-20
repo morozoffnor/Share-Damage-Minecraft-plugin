@@ -1,18 +1,23 @@
 package ml.govnoed.ShareDamage;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import ml.govnoed.ShareDamage.sql.MySQL;
+import ml.govnoed.ShareDamage.sql.SQLGetter;
 import net.md_5.bungee.api.ChatColor;
 
 public class Main extends JavaPlugin implements Listener {
@@ -20,11 +25,29 @@ public class Main extends JavaPlugin implements Listener {
 	public boolean shareDamageActive = false;
 	Map<String, Integer> damageTaken = new HashMap<String, Integer>();
 	
+	public MySQL SQL;
+	public SQLGetter data;
+	
 	@Override
 	public void onEnable() {
 		this.getServer().getPluginManager().registerEvents(this, this);
 		this.getCommand("sharedamage").setTabCompleter(new Cmdtab());
 		shareDamageActive = false;
+		
+		this.SQL = new MySQL();
+		this.data = new SQLGetter(this);
+		
+		try {
+			SQL.connect();
+			Bukkit.getServer().broadcast("Database is connected!", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
+		} catch (ClassNotFoundException | SQLException e) {
+			Bukkit.getLogger().info("Login info is incorrect or you're not using a database!");
+		}
+		
+		if (SQL.isConnected()) {
+			Bukkit.getLogger().info("Database is connected!");
+			data.createTable();
+		}
 	}
 
 	@Override
@@ -94,6 +117,7 @@ public class Main extends JavaPlugin implements Listener {
 			
 			Player player = (Player) event.getEntity();
 			
+			data.addDamage(player.getUniqueId(), event.getDamage());
 			
 			for(Player p : Bukkit.getOnlinePlayers()) {
 				if(player.getName() != p.getName()) p.damage(event.getDamage());
@@ -106,6 +130,12 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		}
 		
+	}
+	
+	@EventHandler
+	public void onJoin(PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		data.createPlayer(player);
 	}
 	
 	

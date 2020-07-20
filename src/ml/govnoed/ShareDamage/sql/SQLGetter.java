@@ -50,7 +50,6 @@ public class SQLGetter {
 	
 	public boolean exists(UUID uuid) {
 		try {
-			System.out.print("existst?");
 			PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT * FROM `ShareDamage` WHERE UUID='" + uuid.toString() + "'");
 
 			
@@ -68,7 +67,6 @@ public class SQLGetter {
 	
 	public void addDamage(UUID uuid, double damage) {
 		try {
-			System.out.print("adding damage");
 			PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("UPDATE `ShareDamage` SET `DAMAGE`=? WHERE UUID='" + uuid.toString() + "'");
 			ps.setDouble(1, (getDamage(uuid) + damage));
 
@@ -82,19 +80,13 @@ public class SQLGetter {
 	
 	public double getDamage(UUID uuid) {
 		try {
-			System.out.print("getting damage");
 			PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT DAMAGE FROM `ShareDamage` WHERE UUID='" + uuid.toString() + "'");
-			System.out.print("setting string");
-
-			System.out.print("executing query");
 			ResultSet rs = ps.executeQuery();
 			double damage = 0.0;
 			
 			
 			if (rs.next()) {
-				System.out.print("getting damage");
 				damage = rs.getDouble("DAMAGE");
-				System.out.print("executing query" + damage);
 				return damage;
 			}
 		

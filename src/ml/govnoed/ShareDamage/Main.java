@@ -27,6 +27,7 @@ public class Main extends JavaPlugin implements Listener {
 	
 	public MySQL SQL;
 	public SQLGetter data;
+	public boolean db = false;
 	
 	@Override
 	public void onEnable() {
@@ -46,6 +47,7 @@ public class Main extends JavaPlugin implements Listener {
 		
 		if (SQL.isConnected()) {
 			Bukkit.getLogger().info("Database is connected!");
+			db = true;
 			data.createTable();
 		}
 	}
@@ -117,7 +119,10 @@ public class Main extends JavaPlugin implements Listener {
 			
 			Player player = (Player) event.getEntity();
 			
-			data.addDamage(player.getUniqueId(), event.getDamage());
+			if (db == true) {
+				data.addDamage(player.getUniqueId(), event.getDamage());
+			}
+			
 			
 			for(Player p : Bukkit.getOnlinePlayers()) {
 				if(player.getName() != p.getName()) p.damage(event.getDamage());
@@ -134,8 +139,11 @@ public class Main extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
-		Player player = event.getPlayer();
-		data.createPlayer(player);
+		if (db == true) {
+			Player player = event.getPlayer();
+			data.createPlayer(player);
+		}
+		
 	}
 	
 	

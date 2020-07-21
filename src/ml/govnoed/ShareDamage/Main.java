@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -43,9 +42,9 @@ public class Main extends JavaPlugin implements Listener {
 		
 		try {
 			SQL.connect();
-			Bukkit.getServer().broadcast("Database is connected!", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
+			Bukkit.getLogger().info("Trying to connent to database...");
 		} catch (ClassNotFoundException | SQLException e) {
-			Bukkit.getLogger().info("Login info is incorrect or you're not using a database!");
+			Bukkit.getLogger().info("Login info is incorrect or you're not using a database! It's okay, plugin will still work perfectly.");
 		}
 		
 		if (SQL.isConnected()) {

@@ -1,6 +1,6 @@
 main: ml.govnoed.ShareDamage.Main
 name: ShareDamage
-version: 1.1
+version: 1.2
 author: morozoffnor
 
 commands:

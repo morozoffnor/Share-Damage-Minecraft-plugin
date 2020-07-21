@@ -25,15 +25,18 @@ public class Main extends JavaPlugin implements Listener {
 	public boolean shareDamageActive = false;
 	Map<String, Integer> damageTaken = new HashMap<String, Integer>();
 	
+	
 	public MySQL SQL;
 	public SQLGetter data;
 	public boolean db = false;
+	
 	
 	@Override
 	public void onEnable() {
 		this.getServer().getPluginManager().registerEvents(this, this);
 		this.getCommand("sharedamage").setTabCompleter(new Cmdtab());
 		shareDamageActive = false;
+		
 		
 		this.SQL = new MySQL();
 		this.data = new SQLGetter(this);
